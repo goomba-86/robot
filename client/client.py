@@ -1,14 +1,24 @@
 import socket
+import time
 
-HOST = '127.0.0.1'
-PORT = 5000
-BUFFER_SIZE = 1024
-MESSAGE = 'Hello, World!'
+class Client:
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((HOST, PORT))
-s.send(MESSAGE.encode())
-data = s.recv(BUFFER_SIZE)
-s.close()
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+    
+    def run(self):
+        BUFFER_SIZE = 1024
+        MESSAGE = 'Hello, World!'
+        
+        while True:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((self.host, self.port))
+            s.send(MESSAGE.encode())
+            data = s.recv(BUFFER_SIZE)
+            s.close()
+            print("Received data: ", data)
+            time.sleep(1)
 
-print("Received data: ", data)
+x = Client('127.0.0.1', 5000)
+x.run()
