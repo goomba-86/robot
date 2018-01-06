@@ -1,23 +1,37 @@
 import socket
 import time
+import keyboardstatus
+import request
+import jsonpickle
 
 class Client:
 
     def __init__(self, host, port):
         self.host = host
         self.port = port
-    
+        self.keyboard_status = keyboardstatus.KeyboardStatus()
+            
+
+    def create_socket(self):
+        return socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def update_keyboard_status(self):
+        self.keyboard_status.update_key_statuses()
+
+    def create_message(self):
+        request_message = request.Request(self.keyboard_status)
+        return jsonpickle.encode(request_message)
+
     def run(self):
         BUFFER_SIZE = 1024
-        MESSAGE = 'Hello, World!'
-        
+
         while True:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s = self.create_socket()
             s.connect((self.host, self.port))
-            s.send(MESSAGE.encode())
+            self.update_keyboard_status()
+            s.send(self.create_message().encode())
             data = s.recv(BUFFER_SIZE)
             s.close()
-            print("Received data: ", data)
             time.sleep(1)
 
 x = Client('127.0.0.1', 5000)
