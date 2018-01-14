@@ -1,11 +1,12 @@
-import socket
+import socket, robot
 
 
 class Server:
 
     def __init__(self, port):
-        self.host = '127.0.0.1'
+        self.host = 'localhost'
         self.port = port
+        self.robo = robot.Robot()
         
     def run(self):
         buffer_size = 1024
@@ -24,6 +25,7 @@ class Server:
                     break
                 print("Reiceived data", data)
                 connection.send(data) #echo
+                robo.move(data)
 
             connection.close()
             

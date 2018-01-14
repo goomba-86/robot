@@ -34,5 +34,5 @@ class Client:
             s.close()
             time.sleep(1)
 
-x = Client('127.0.0.1', 5000)
+x = Client('192.168.1.11', 5000)
 x.run()

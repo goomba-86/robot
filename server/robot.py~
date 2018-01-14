@@ -1,0 +1,18 @@
+import robohat, jsonpickle
+
+class Robot:
+
+    def __init__(self):
+        self.speed = 60
+
+    def move(self, request):
+        req = jsonpickle.decode(request)
+
+        if(req.forward):
+            robohat.forward(self.speed)
+        elif(req.reverse):
+            robohat.reverse(self.speed)
+        elif(req.left):
+            robohat.spinLeft(self.speed)
+        elif(req.right):
+            robohat.spinRight(self.speed)
