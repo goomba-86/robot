@@ -1,12 +1,13 @@
-import socket, robot
+import socket, robot, camera
 
 
 class Server:
 
     def __init__(self, port):
-        self.host = 'localhost'
+        self.host = '192.168.1.9'
         self.port = port
         self.robo = robot.Robot()
+        self.camera = camera.Camera()
         
     def run(self):
         buffer_size = 1024
@@ -20,12 +21,16 @@ class Server:
             print('Connection address: ', address)
 
             while True:
+                print('Receiving data')
                 data = connection.recv(buffer_size)
-                if not data:
+                if not data:                    
                     break
-                print("Reiceived data", data)
-                connection.send(data) #echo
-                robo.move(data)
+                print("Received data. Sending image back...")
+                self.camera.take_new_picture()
+                picture_bytes = self.camera.get_picture_bytes()
+                connection.send(picture_bytes)
+                print("Sent image back. Bytes: ", str(len(picture_bytes)))
+                self.robo.move(data)
 
             connection.close()
             

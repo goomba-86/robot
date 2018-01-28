@@ -1,0 +1,10 @@
+import picamera
+from PIL import Image
+
+class Camera:
+
+    def __init__(self):
+        self.camera = picamera.PiCamera()
+
+    def take_picture():
+        
