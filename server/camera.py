@@ -11,7 +11,6 @@ class Camera:
     def take_new_picture(self):
         self.camera.capture(self.image_name)
 
-    def get_picture_bytes(self):
-        image_file = open(self.image_name, 'rb')
-        return image_file.read()
+    def get_picture(self):
+        return open(self.image_name, 'rb')
         
